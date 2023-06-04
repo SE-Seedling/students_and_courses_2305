@@ -63,4 +63,28 @@ RSpec.describe Gradebook do
       expect(subject.students_below(75)).to match_array([student3, student1])
     end
   end
+
+  describe '#all_grades' do
+    let(:returned_hash) { {
+      course1 => [],
+      course2 => grades,
+      course3 => []
+    } }
+    let(:grades) { course2.students.map(&:scores).flatten }
+
+    it 'returns hash with all grades for courses' do
+      subject.add_course(course1)
+      subject.add_course(course2)
+      subject.add_course(course3)
+      course2.enroll(student2)
+      course2.enroll(student3)
+      course2.enroll(student1)
+      student1.log_score(90)
+      student1.log_score(45)
+      student3.log_score(60)
+      student3.log_score(70)
+      student2.log_score(95)
+      expect(subject.all_grades).to eq(returned_hash)
+    end
+  end
 end
