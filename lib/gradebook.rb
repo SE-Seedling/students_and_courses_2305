@@ -23,16 +23,19 @@ class Gradebook
   def students_below(threshold)
     matching_students_grades = []
 
-    list_all_students.each do |_, students|
-      students.each do |student|
-        student.scores.each do |score|
-          if score < threshold
-            matching_students_grades << student
-          end
-        end
+    all_students_with_scores.each do |student, scores|
+      scores.each do |score|
+        matching_students_grades << student if score < threshold
       end
     end
 
     matching_students_grades.uniq
+  end
+
+  def all_students_with_scores
+    students = list_all_students.values.flatten
+    students.to_h do |student|
+      [student, student.scores]
+    end
   end
 end
