@@ -38,4 +38,14 @@ class Gradebook
       [student, student.scores]
     end
   end
+
+  def all_grades
+    course_grades_hash = {}
+
+    list_all_students.each do |course, students|
+      course_grades_hash[course] = students.map(&:scores).flatten
+    end
+
+    course_grades_hash
+  end
 end
