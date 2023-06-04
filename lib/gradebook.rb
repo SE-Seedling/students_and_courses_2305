@@ -48,4 +48,16 @@ class Gradebook
 
     course_grades_hash
   end
+
+  def students_in_range(min, max)
+    matching_students = []
+
+    all_students_with_scores.each do |student, scores|
+      scores.each do |score|
+        matching_students << student if score >= min && score <= max
+      end
+    end
+
+    matching_students.uniq
+  end
 end
